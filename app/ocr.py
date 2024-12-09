@@ -1,15 +1,29 @@
-from PIL import Image
+# project/app/ocr.py
+
 import pytesseract
-import cv2
+from PIL import Image
 
 def extract_text(image_path=None, frame=None):
-    if frame is not None:
-        processed_image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-    elif image_path is not None:
-        processed_image = Image.open(image_path)
-    else:
-        raise ValueError("이미지 경로나 프레임 데이터가 필요합니다.")
+    """
+    Tesseract OCR을 사용하여 이미지에서 한글과 영어 텍스트를 추출합니다.
 
-    config = "--psm 6 --oem 3"
-    raw_text = pytesseract.image_to_string(processed_image, lang="kor+eng", config=config)
-    return raw_text
+    :param image_path: 이미지 파일 경로
+    :param frame: 프레임 데이터 (numpy 배열)
+    :return: 추출된 텍스트 (문자열)
+    """
+    if frame is not None:
+        # 프레임이 제공된 경우, PIL 이미지로 변환
+        image = Image.fromarray(frame)
+    elif image_path is not None:
+        # 이미지 경로가 제공된 경우, 이미지 파일 열기
+        image = Image.open(image_path)
+    else:
+        raise ValueError("이미지 경로나 프레임 데이터 중 하나는 반드시 제공해야 합니다.")
+
+    # Tesseract를 사용하여 이미지에서 텍스트 추출
+    try:
+        text = pytesseract.image_to_string(image, lang="kor+eng")  # 한글+영어 추출
+    except Exception as e:
+        raise RuntimeError(f"Tesseract OCR 처리 중 오류 발생: {e}")
+
+    return text
