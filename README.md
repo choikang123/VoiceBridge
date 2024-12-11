@@ -25,7 +25,27 @@
    - TTS 시각화: 처리 시간의 평균, 표준 편차, 최대/최소 값을 강조하여 표시합니다.
 
 ---
-
+## 프로젝트 구조
+```
+project/
+├── main.py              # 프로젝트 메인 실행 파일
+├── app/                 # 주요 앱 기능 코드가 포함된 디렉토리
+│   ├── __init__.py      # Python 패키지 초기화 파일
+│   ├── gui.py           # GUI 인터페이스 코드
+│   ├── ocr.py           # OCR(텍스트 추출) 관련 코드
+│   ├── performance.py   # 성능 시각화 관련 코드 (OCR, TTS)
+│   ├── tts.py           # 텍스트 음성 변환(TTS) 관련 코드
+│   ├── camera.py        # 카메라로 이미지 캡처 후 OCR 수행
+├── data/                # 프로젝트 실행 중 생성 및 사용되는 데이터 파일
+│   ├── captured_image.jpg  # 카메라로 캡처된 이미지
+│   ├── output.mp3          # TTS로 생성된 음성 파일
+│   ├── test_image1.png     # OCR 테스트용 샘플 이미지 1
+│   ├── test_image2.png     # OCR 테스트용 샘플 이미지 2
+├── requirements.txt     # 프로젝트 실행에 필요한 패키지 목록
+├── README.md            # 프로젝트 설명 파일 (사용 방법, 설치 가이드 등)
+├── LICENSE              # 프로젝트의 라이센스 정보를 포함
+```
+---
 ## ⚙️ 작동 원리
 
 1. **이미지 업로드**:
@@ -142,10 +162,22 @@ python main.py
   - TTS로 음성 변환시 소요된 처리 시간의 `평균, 표준 편차, 최대/최소` 값이 포함된 막대 그래프가 표시됩니다.<br> `(data 폴더 안에 test_image1과 test image2를 예시로 이용하였습니다)`
   - ![TTS 처리시간](https://github.com/user-attachments/assets/dd0c1af1-0e81-42fb-81ff-fed4b405efbe)
 ---
-## 🛠️ 참고 사항
+## 🛠️ 참고 사항및 참고자료
 1. **Tesseract OCR** 엔진이 설치되어 있어야 합니다.
 2. **OCR 신뢰도**는 입력 이미지의 품질에 따라 다를 수 있습니다.
 3. **TTS**는 인터넷 연결이 필요합니다 (Google TTS 사용).
+4. **OpenAI GPT (ChatGPT)**:
+   - 코딩 도움, 아이디어 정리 및 문서 작성 과정에서 사용하였습니다.
+5. **참고 자료**:
+   - Tesseract OCR: https://github.com/tesseract-ocr/tesseract
+   - OpenCV: https://opencv.org/
+   - Google TTS: https://pypi.org/project/gTTS/
+   - https://wikidocs.net/132610
+   - https://github.com/UB-Mannheim/tesseract/wiki
+   - https://mj-thump-thump-story.tistory.com/entry/OCR-Tesseract-Windows-%ED%99%98%EA%B2%BD%EC%97%90-%EC%85%8B%EC%97%85
+6. **라이브러리 공식 문서**:
+   - Matplotlib: https://matplotlib.org/stable/contents.html
+   - NumPy: https://numpy.org/doc/
 ---
 
 ## 라이센스
