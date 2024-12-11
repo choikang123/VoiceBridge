@@ -15,12 +15,20 @@ def run_app():
     # 기본 root 초기화
     root = tk.Tk()
     root.title("시각 장애인을 위한 텍스트 추출 프로그램")
-    root.geometry("700x500")
+
+    # 전체 화면 활성화
+    root.wm_attributes('-fullscreen', True)
     root.configure(bg="#f4f4f9")
 
     # 한글 폰트 설정
     default_font = Font(family="맑은 고딕", size=12)  # Windows용 폰트
     root.option_add("*Font", default_font)  # 기본 폰트 설정
+
+    # 창 종료를 위한 ESC 키 처리
+    def exit_fullscreen(event=None):
+        root.attributes('-fullscreen', False)
+
+    root.bind('<Escape>', exit_fullscreen)
 
     def select_image():
         filepath = filedialog.askopenfilename(
@@ -74,7 +82,7 @@ def run_app():
                 scores=ocr_confidences,
                 labels=[f"Sample {i+1}" for i in range(len(ocr_confidences))],
                 title="OCR 성능 지표 (Gaussian 기반 신뢰 구간 포함)",
-                ylabel="Confidence (%)"
+                ylabel="추출된 텍스트의 신뢰도 (%)"
             )
         if tts_durations:
             visualize_performance(
@@ -84,26 +92,29 @@ def run_app():
                 ylabel="Processing Time (s)"
             )
 
-
     style = ttk.Style()
     style.configure("TButton", font=("Helvetica", 12), padding=5, relief="flat")
     style.configure("TLabel", font=("Helvetica", 14), background="#f4f4f9", foreground="#34495E")
 
-    ttk.Label(root, text="OCR 및 음성 변환 앱", font=("Helvetica", 18, "bold")).grid(row=0, column=0, columnspan=3, pady=10)
+    # 중앙에 위치시키기 위해 Frame 사용
+    main_frame = ttk.Frame(root, style="TLabel")
+    main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-    btn_select = ttk.Button(root, text="이미지 업로드", command=select_image)
+    ttk.Label(main_frame, text="시각에 문제가 있는 분들을 돕기 위한 프로그램입니다", font=("Helvetica", 18, "bold")).grid(row=0, column=0, columnspan=3, pady=10)
+
+    btn_select = ttk.Button(main_frame, text="이미지 업로드", command=select_image)
     btn_select.grid(row=1, column=0, pady=10, padx=10)
 
-    btn_camera = ttk.Button(root, text="카메라로 캡처", command=capture_from_camera)
+    btn_camera = ttk.Button(main_frame, text="카메라로 캡처", command=capture_from_camera)
     btn_camera.grid(row=1, column=1, pady=10, padx=10)
 
-    btn_performance = ttk.Button(root, text="성능 시각화", command=show_performance)
+    btn_performance = ttk.Button(main_frame, text="성능 시각화", command=show_performance)
     btn_performance.grid(row=1, column=2, pady=10, padx=10)
 
-    text_box = tk.Text(root, height=15, width=60, wrap=tk.WORD, font=("Courier", 12))
+    text_box = tk.Text(main_frame, height=15, width=60, wrap=tk.WORD, font=("Courier", 12))
     text_box.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
 
-    btn_play = ttk.Button(root, text="소리 듣기", command=play_audio)
+    btn_play = ttk.Button(main_frame, text="소리 듣기", command=play_audio)
     btn_play.grid(row=3, column=0, columnspan=3, pady=10)
 
     root.mainloop()
