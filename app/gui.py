@@ -108,7 +108,7 @@ def run_app():
     style.configure("TButton", font=("Helvetica", 12), padding=5, relief="flat")
     style.configure("TLabel", font=("Helvetica", 14), background="#f4f4f9", foreground="#34495E")
 
-    ttk.Label(main_frame, text="시각에 문제가 있는 분들을 위한 프로그램", font=("Helvetica", 18, "bold")).grid(row=0, column=0, columnspan=4, pady=10)
+    ttk.Label(main_frame, text="시각에 문제가 있는 분들을 돕기위해 만들어진 프로그램", font=("Helvetica", 18, "bold")).grid(row=0, column=0, columnspan=4, pady=10)
 
     btn_select = ttk.Button(main_frame, text="이미지 업로드", command=select_image)
     btn_select.grid(row=1, column=0, pady=10, padx=10)
